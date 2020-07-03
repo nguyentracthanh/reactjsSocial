@@ -3,12 +3,14 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
-
+import Page_facebook from './components/Page_facebook'
+import ReactfbPagedata from './components/fbPages/ReactfbPagedata';
 
 ReactDOM.render(
   <React.StrictMode>
-        <App />
-       
+    <App />,
+    {/* <Page_facebook /> */}
+    <ReactfbPagedata />
   </React.StrictMode>,
   document.getElementById('root')
 );

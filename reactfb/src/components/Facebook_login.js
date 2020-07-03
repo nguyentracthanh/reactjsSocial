@@ -5,7 +5,9 @@ export default class LoginFacebook extends Component {
     state = {
         auth: false,
         name: '',
-        picture: ''
+        picture: '',
+        user_accesstoken:'',
+        user_id:''
     };
 
     responseFacebook = response => {
@@ -14,7 +16,9 @@ export default class LoginFacebook extends Component {
             this.setState({
                 auth: true,
                 name: response.name,
-                picture: response.picture.data.url
+                picture: response.picture.data.url,
+                user_accesstoken:response.accessToken,
+                user_id:response.userID
             });
 
     }
@@ -37,6 +41,8 @@ export default class LoginFacebook extends Component {
                 }}>
                     <img src={this.state.picture} alt={this.state.name} />
                     <h2>Welcome {this.state.name}!</h2>
+                    <p width="100">AccessToken is {this.state.user_accesstoken}</p>
+                    <h2>user ID: {this.state.user_id}</h2>
                 </div>
             ) :
             facebookData = (<FacebookLoginBtn
@@ -49,6 +55,7 @@ export default class LoginFacebook extends Component {
         return (
             <>
                 {facebookData}
+                 
             </>
         );
     }
