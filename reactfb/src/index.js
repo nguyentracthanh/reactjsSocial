@@ -9,8 +9,8 @@ import ReactfbPagedata from './components/fbPages/ReactfbPagedata';
 ReactDOM.render(
   <React.StrictMode>
     <App />,
-    {/* <Page_facebook /> */}
-    <ReactfbPagedata />
+    <Page_facebook />
+    {/* <ReactfbPagedata /> */}
   </React.StrictMode>,
   document.getElementById('root')
 );
