@@ -5,7 +5,8 @@ import React, { Component } from 'react';
 export default class ReactfbPagedata extends Component {
   state = {
     fbData: [],
-    postData:[]
+    postData:[],
+    insightData:[]
   }
   getPageData = () => {
     axios
@@ -21,7 +22,7 @@ export default class ReactfbPagedata extends Component {
           })
         },
         error => {
-          console.log(error);
+          console.log("error");
         }
       );
   };
@@ -31,17 +32,34 @@ export default class ReactfbPagedata extends Component {
       )
       .then(
         res => {
-          const result = res.data;
-          console.log(result);
+          const resultPost = res.data;
+          console.log(resultPost);
           alert("Success!");
           this.setState({
-            postData:result.data
+            postData:resultPost.data
           });
         },
         error => {
-          console.log(error);
+          console.log("error");
         }
       );
+  };
+  getPageInsight = () =>{
+    axios
+    .get("https://graph.facebook.com/v7.0/395716977428401/insights/page_impressions?access_token=EAAEPte3grfEBAKfjtbkHkzRVRoFpx9JBmbOaZCDY5HFTp3dCDrOjkRhVTda1FFmir70bfEhSjalEGZAdGxuHkVZACbGZCQ5vU1o4dTLUhGYmR87J8ZCMz5WvJuJGaDHdJD398jlBUohDGtwsoyV9u5M9lOLeXG6ZAZASUY9t3Oh9HAhSpuLBzZB8Uq6cGZC9OfP8ZD")
+    .then(
+      res => {
+        const resultInsight=res.data;
+        console.log(resultInsight);
+        alert("success");
+        this.setState({
+          insightData:resultInsight.data
+        });
+      },
+      error => {
+        console.log("error");
+      }
+    );
   };
   render() {
     return (
@@ -50,19 +68,36 @@ export default class ReactfbPagedata extends Component {
         <br />
         <button onClick={this.getPageData}>GET</button>
         <br/>
-        <button onClick={this.getPagePostData}>GET</button>
-        <br/>
-        <br/>
         This is Page: {this.state.fbData.map(dataItem=><div key={dataItem.id}>{dataItem.name} 
         <br/>
         access token : {dataItem.access_token}</div>)}
         <br/>
-        Time create: {this.state.postData.map(postDataItem => <div>{postDataItem.created_time}
+        <button onClick={this.getPagePostData}>GET</button>
+        <br/>
+        
+        <br/>
+        {/* Time create: {this.state.postData.map(postDataItem => <div>{postDataItem.created_time}
         <br />
         ID post: {postDataItem.id}
         
         <br />
-        Message: {postDataItem.message}</div>)}
+        Message: {postDataItem.message}</div>)} */}
+        <button onClick={this.getPageInsight}>GET page insight</button>
+        <br/>
+        
+          {this.state.insightData.map(insightItem =>(
+            <div key={insightItem.id}>
+            <div>Name of insight: {insightItem.name}</div>
+            <div>Period of insight: {insightItem.period}</div>
+            <div>Titile of insight: {insightItem.title}</div>
+            <div>Description of insight: {insightItem.description}</div>
+            <div> {insightItem.values.map(valueItem=> (
+              <div>
+                Number of clicked: {valueItem.value} in {valueItem.end_time}
+              </div>
+          ))} </div>
+          </div>
+          ))}
         
       </div>
     );
