@@ -1,17 +1,23 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from 'react';
+
 import Facebook_login from './components/Facebook_login'
 import Page_facebook from './components/Page_facebook'
+import SignInSide from './components/SignInSide'
+import Register from './components/Register'
+import Home from './components/home'
+import { Route , Link, Switch} from 'react-router-dom'
+
+
 function App() {
   return (
-      <div className="App">
-          <p>
-              Facebook Authentication
-        </p>
-          <Facebook_login />
-          
-      </div>
+    <Switch>
+      <Route exact path= "/" component={SignInSide} />
+      <Route exact path= "/login" component={SignInSide} />
+      <Route path= "/register" component={Register} />
+      <Route path= "/home" component={Home} />
+      <Route path= "/loginWithFacebook" component={Facebook_login} />
+
+    </Switch>
   );
 }
 
