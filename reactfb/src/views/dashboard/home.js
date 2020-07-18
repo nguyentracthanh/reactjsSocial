@@ -5,7 +5,7 @@ import './home.css';
 class Home extends React.Component {
   render (){
     return (
-      <div className="home">
+      <div className="is-preload">
 		  	
 			<header id="header">
 				<a className="logo" href="/home">Industrious</a>
@@ -18,8 +18,8 @@ class Home extends React.Component {
 			<nav id="menu">
 				<ul className="links">
 					<li><a href="/home">Home</a></li>
-					<li><a href="elements.html">Elements</a></li>
-					<li><a href="generic.html">Generic</a></li>
+					<li><a href="/#">Elements</a></li>
+					<li><a href="/#">Generic</a></li>
 				</ul>
 			</nav>
 
@@ -30,7 +30,7 @@ class Home extends React.Component {
 					<p>A responsive business oriented template with a video background<br />
 					designed by <a href="facebook.com/thanhnt.b8170">TEMPLATED</a> and released under the Creative Commons License.</p>
 				</div>
-				<video autoplay loop muted playsinline src="images/banner.mp4"></video>
+				<video autoPlay loop muted playsInline src="images/banner.mp4"></video>
 			</section>
 
 		
