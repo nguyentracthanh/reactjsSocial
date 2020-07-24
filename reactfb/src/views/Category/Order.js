@@ -65,35 +65,10 @@ export default function Orders() {
   // )
   return (
     <React.Fragment>
-      <Title>Recent Orders</Title>
-      {/* <form  noValidate>
-        <TextField
-        variant="outlined"
-        margin="normal"
-        required
-        fullWidth
-        id="pageID"
-        label="Page ID"
-        name="pageID"
-        autoComplete="pageID"
-        autoFocus
-        />
-        <Button
-          type="submit"
-          fullWidth
-          variant="contained"
-          color="primary"
-          className={classes.submit}
-          onClick={getPagedata()}
-        >
-            Get
-        </Button>
-      </form> */}
-      {/* {renderPageInfo} */}
-      {/* <img src={fbPageData.picture.data.url} alt={fbData.name}/>
-          <br />
-        <h2> {fbData.name}</h2> */}
-      {/* <Table size="small">
+      {/* <Title>Recent Orders</Title>
+     
+      
+      <Table size="small">
         <TableHead>
           <TableRow>
             <TableCell>Date</TableCell>

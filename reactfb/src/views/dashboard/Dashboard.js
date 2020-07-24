@@ -18,7 +18,7 @@ import Link from '@material-ui/core/Link';
 import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import NotificationsIcon from '@material-ui/icons/Notifications';
-import { mainListItems, secondaryListItems } from './listItems';
+import { mainListItems, secondaryListItems } from '../../components/listItems';
 import Chart from './Chart';
 import Deposits from './Deposits';
 import Orders from './Order';
@@ -129,7 +129,9 @@ export default function Dashboard() {
     setOpen(false);
   };
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
-
+  const changeTab = ()  =>{
+    
+  }
   return (
     <div className={classes.root}>
       <CssBaseline />
@@ -142,7 +144,8 @@ export default function Dashboard() {
             onClick={handleDrawerOpen}
             className={clsx(classes.menuButton, open && classes.menuButtonHidden)}
           >
-            <MenuIcon />
+            <MenuIcon 
+            onClick = {changeTab}/>
           </IconButton>
           <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
             Dashboard

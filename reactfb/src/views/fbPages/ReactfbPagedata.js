@@ -7,8 +7,9 @@ export default function ReactfbPagedata() {
   let dataItem;
   const getPagedata = () => {
     axios
-      .get("https://graph.facebook.com/2556677127928535/accounts?access_token=EAAEPte3grfEBAMET9CUl8qdT4wBXt1SganspcEbVZBdVYFgkH7IkpbE7AWHsWEokzZCWU46WNEe6Ans1Tfj7nb6SgAtZBO9ItdkZASfMWfTGaFlelezKzgynnK2X0OLDCkNPmMW1LK2dqZBllYK39yJd0i9sALrpCTHwCxBO8PyBu8ZBd673KI"
-      )
+      .get("https://graph.facebook.com/2556677127928535/accounts?",{
+        access_token:window.accessToken
+      })
       .then(
         res => {
           const result = res.data;
