@@ -9,9 +9,18 @@ import axios from "axios";
 import { UserContext } from "./../../utils/userContext";
 export default function Deposits() {
   const [fbData, setFbData] = useState([]);
-  const [auth, setAuth] = useState(false);
+  const [fbDataLocal, setFbDataLocal] = useState([]);
+  const [auth, setAuth] = useState(null);
+  const [userShortLiveToken, setUserShortLiveToken] = useState(null);
+  const [fbLoginClicked, setFBLoginClicked] = useState(false);
+  const [userLongLiveAccesstoken, setUserLongLiveAccesstoken] = useState('');
+  
   // const {onSignIn}=useContext(UserContext);
-
+  // if(!fbLoginClicked){
+  //   localStorage.removeItem("userData");
+  //   localStorage.removeItem("userLongLiveToken");
+  //   setAuth(false);
+  // }
   // let dataItem;
   // let name= '';
   // let picture= '';
@@ -20,15 +29,22 @@ export default function Deposits() {
   let facebookData;
   const responseFacebook = (response) => {
     console.log(response);
+    
     if (response.status !== "unknown") {
       const userInfor = response;
+      
       setFbData(userInfor);
-      setAuth(true);
+
       // onSignIn(userInfor)
       localStorage.setItem("userData", JSON.stringify(userInfor));
+      
+      
+
+
+
       // name=userInfor.data.name;
       // picture=userInfor.data.picture.data.url;
-      // user_accesstoken=userInfor.data.accessToken;
+
       // user_id=userInfor.data.userID;
       //   this.setState({
       //       auth: true,
@@ -38,37 +54,101 @@ export default function Deposits() {
       //       user_id:response.userID
       //   });
     }
+    console.log(userShortLiveToken);
   };
+  // useEffect(() => {
+  //   if (localStorage.getItem("userData") == null) {
+  //     localStorage.setItem("userData", JSON.stringify(fbData));
+  //   } else {
+  //     localStorage.removeItem("userData");
+  //     localStorage.setItem("userData", JSON.stringify(fbData));
+  //   }
+  // })
+  useEffect(() => {
+    if (userShortLiveToken) {
+      axios
+        .get(
+          `https://graph.facebook.com/v7.0/oauth/access_token?grant_type=fb_exchange_token&client_id=298749031132657&client_secret=a07b28c470c31524350c8fb404852362&fb_exchange_token=${userShortLiveToken}`
+        )
+        .then(
+          (res) => {
+            const result = res.data.access_token;
+            // alert("long live at", result)
+            console.log("long live accesstoken: ", result);
+            // alert(userAccessToken)
+            setUserLongLiveAccesstoken(result);
+            localStorage.setItem("userLongLiveToken", (result));
+          },
+          (error) => {
+            console.log(error);
+          }
+        );
+    }
+  },[userShortLiveToken]);
+
+  
+
+
   const [fbPageData, setFbPageData] = useState([]);
 
   const [pageAccessToken, setpageAccessToken] = useState(
     fbPageData.accessToken
   );
-  const [userAccesstoken, setUserAT] = useState(fbData.accessToken);
-  const [userID, setUserID] = useState(fbData.userID);
+  // useEffect(() => {
+  //   const timer = setTimeout(() => {
+  //     setAuth(false)
+  //   }, 5);
+  //   return () => {
+  //     clearTimeout(timer);
+  //     localStorage.clear('userData');}
+  // }, []);
+  
+  // const [userID, setUserID] = useState(fbData.userID);
 
   const componentClicked = () => {
-    console.log("Facebook btn clicked");
+    setFBLoginClicked(true)
   };
+  useEffect(()=>{
+    if(localStorage.getItem("userData")=="undefined"){
+      setFBLoginClicked(false);
+    }
+  },[])
   useEffect(() => {
+    // if(auth){
+
     const user = JSON.parse(localStorage.getItem("userData"));
-    setFbData(user);
+    // if(fbData && fbData.length){
+    //   console.log("hihi",user)
+    setFbDataLocal(user);
+    
+    // }
+    // }
   }, []);
   useEffect(() => {
-    if (fbData) {
+    if (fbDataLocal) {
       setAuth(true);
+      // setUserAT(fbData.accessToken);
+
     }
-  }, [fbData]);
+  }, [fbDataLocal]);
+  useEffect(()=>{
+    if(fbDataLocal){
+      const result=fbDataLocal.accessToken;
+      setUserShortLiveToken(result);
+      console.log("fbDataLocal: ",fbDataLocal);
+      console.log("user access token", result)
+    }
     
-  
-  if (auth == true) {
+  },[fbDataLocal])
+
+  if (fbLoginClicked) {
     facebookData = (
       <div>
         <Title>Profile</Title>
         <div>
-          <img src={fbData.picture.data.url} alt={fbData.name} />
+          <img src={fbDataLocal.picture.data.url} alt={fbDataLocal.name} />
           <br />
-          <h2> {fbData.name}</h2>
+          <h2> {fbDataLocal.name}</h2>
         </div>
       </div>
     );
@@ -82,6 +162,7 @@ export default function Deposits() {
         callback={responseFacebook}
       />
     );
+    // localStorage.clear("userData")
   }
 
   return <div>{facebookData}</div>;

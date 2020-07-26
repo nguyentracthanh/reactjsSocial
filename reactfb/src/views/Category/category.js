@@ -18,7 +18,7 @@ import Link from '@material-ui/core/Link';
 import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import NotificationsIcon from '@material-ui/icons/Notifications';
-import Chart from './Chart';
+import Products from './Products';
 import Deposits from './Deposits';
 import { mainListItems, secondaryListItems } from '../../components/listItems';
 
@@ -174,10 +174,10 @@ export default function Dashboard() {
         <div className={classes.appBarSpacer} />
         <Container maxWidth="lg" className={classes.container}>
           <Grid container spacing={3}>
-            {/* Chart */}
+            {/* Products */}
             <Grid item xs={12} md={8} lg={9}>
               <Paper className={fixedHeightPaper}>
-                <Chart />
+                <Products />
               </Paper>
             </Grid>
             {/* Recent Deposits */}
