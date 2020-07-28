@@ -80,14 +80,11 @@ export default function Deposits() {
         (res) => {
           const result = res.data.data;
           var pageID = [];
-          var pageAccessTokenx=[];
           for (var i = 0; i < result.length; i++) {
             pageID[i] = result[i].id;
-            // pageAccessTokenx[i]=result[i].access_token;
           }
           console.log("pageID:", pageID);
           setPageID(pageID);
-          // setpageAccessToken(pageAccessTokenx);
 
           // const result = res.data.data[0]; // collect data in array[0]
           console.log("pageInfo: ", res);
@@ -154,7 +151,7 @@ export default function Deposits() {
               border: "0px ",
             }}
             key={index}
-            onClick={() => {setProductPageID(dataItem.id);setpageAccessToken(dataItem.access_token)}}
+            onClick={() => setProductPageID(dataItem.id)}
           >
             {/* <div>Name: {dataItem.name}</div> */}
             <div>
@@ -190,34 +187,7 @@ export default function Deposits() {
     // getProductCatalog();
     localStorage.setItem("listPostClicked", true);
     localStorage.setItem("pageID",productPageID);
-    getPageFanOnline();
-    // getPageAccessToken();
   }
-  const [pageAccessToken,setpageAccessToken]=useState(null);
-  // const getPageAccessToken=()=>{
-  //   axios
-  //   .get( `https://graph.facebook.com/v7.0/${productPageID}?fields=access_token&access_token=${userAccessToken}`)
-  //   .then(
-  //     (res) =>{
-  //       const result=res.data.access_token;
-  //       setpageAccessToken(result);
-  //       console.log("setpageAccessToken",result)
-  //     }
-  //   )
-  // }
-  const [dataCollected,setDataCollected]=useState([]);
-  const getPageFanOnline=()=>{
-    axios
-    .get( `https://graph.facebook.com/v7.0/${productPageID}/insights/page_fans_online?access_token=${pageAccessToken}`)
-    .then(
-      (res)=>{
-        const result=res.data.data;
-        // setDataCollected(result)
-        localStorage.setItem("data_page_fan_online", JSON.stringify(result[0].values));
-      }
-    )
-  }
-
   return (
     <React.Fragment>
       <Title>Your Pages</Title>

@@ -37,7 +37,7 @@ export const mainListItems = (
       </ListItemIcon>
       <ListItemText primary="Statistic" />
     </ListItem>
-    <ListItem button>
+    <ListItem button component = {Link} to ="/post">
       <ListItemIcon>
         <LayersIcon />
       </ListItemIcon>

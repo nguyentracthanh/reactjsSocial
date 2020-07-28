@@ -5,8 +5,8 @@ import Typography from "@material-ui/core/Typography";
 import Title from "./Title";
 import { UserContext } from "../../utils/userContext";
 import axios from "axios";
-import RoundImage from "react-rounded-image"
-// function preventDefault(event) { 
+import RoundImage from "react-rounded-image";
+// function preventDefault(event) {
 //   event.preventDefault();
 // }
 const df = null;
@@ -29,13 +29,13 @@ export default function Deposits() {
   // const [pageAccessToken,setpageAccessToken]=useState(fbPageData.accessToken)
   // const [userAccesstoken,setUserAT]=useState(fbData.accessToken)
   // const [userID,setUserID]=useState(fbData.userID)
-  const [check,setCheck]=useState(false);
-  useEffect(()=>{
-    if(check == false){
-    localStorage.setItem("clicked",check);
+  const [check, setCheck] = useState(false);
+  useEffect(() => {
+    if (check == false) {
+      localStorage.setItem("clicked", check);
     }
-  },[check])
-  
+  }, [check]);
+
   // setUserID(userData.userID);
 
   useEffect(() => {
@@ -49,7 +49,6 @@ export default function Deposits() {
       const userLongLiveToken = localStorage.getItem("userLongLiveToken");
       setUserAT(userLongLiveToken);
       // alert("user access token:",userAccessToken);
-
     }
   }, [userData]);
 
@@ -72,7 +71,6 @@ export default function Deposits() {
   //   }
   // }
   const getPagedata = () => {
-
     axios
       .get(
         `https://graph.facebook.com/v7.0/2556677127928535/accounts?access_token=${userAccessToken}`
@@ -99,22 +97,19 @@ export default function Deposits() {
                 `https://graph.facebook.com/v7.0/${pageID[i]}/picture`
                 // ?access_token=${userAccessToken}
               )
-              .then(
-                (res) => {
-                  const avtURL = res;
-                  console.log("img:", res);
+              .then((res) => {
+                const avtURL = res;
+                console.log("img:", res);
 
-                  pageAvtURL[i] = avtURL;
-                  setPageAvtURL(pageAvtURL);
-                }
-              )
+                pageAvtURL[i] = avtURL;
+                setPageAvtURL(pageAvtURL);
+              });
           }
         },
         (error) => {
           console.log(error);
         }
       );
-
   };
   function removeButton() {
     document.getElementById("buttonGetPage").style.display = "none";
@@ -126,21 +121,16 @@ export default function Deposits() {
     axios
       .get(
         `https://graph.facebook.com/v7.0/${productPageID}/product_catalogs?access_token=${userAccessToken}`
-        // 
+        //
       )
-      .then(
-        (res) => {
-          const productCata = res.data.data;
-          console.log("product catalog:", productCata);
-          setProductCatalogID(productCata);
-          localStorage.setItem("CatalogID", JSON.stringify(productCata));
-          // pageAvtURL[i] = avtURL;
-          // setPageAvtURL(pageAvtURL);
-        }
-      )
-
-
-
+      .then((res) => {
+        const productCata = res.data.data;
+        console.log("product catalog:", productCata);
+        setProductCatalogID(productCata);
+        localStorage.setItem("CatalogID", JSON.stringify(productCata));
+        // pageAvtURL[i] = avtURL;
+        // setPageAvtURL(pageAvtURL);
+      });
   }
   useEffect(() => {
     if (productPageID) {
@@ -148,17 +138,20 @@ export default function Deposits() {
 
       localStorage.setItem("pageID", productPageID);
     }
-  }, [productPageID])
+  }, [productPageID]);
   const renderPageInfo = (
     <div>
       {pageInfor.map((dataItem, index) => (
         // <div key={dataItem.id}>
         <div>
-          <button style={{
-            background: "#FFFFFF",
-            border: "0px "
-          }}
-            key={index} onClick={() => setProductPageID(dataItem.id)}>
+          <button
+            style={{
+              background: "#FFFFFF",
+              border: "0px ",
+            }}
+            key={index}
+            onClick={() => setProductPageID(dataItem.id)}
+          >
             {/* <div>Name: {dataItem.name}</div> */}
 
             <RoundImage
@@ -177,32 +170,40 @@ export default function Deposits() {
           <br />
         </div>
       ))}
-
     </div>
   );
-
 
   function getFunction() {
     getPagedata();
     removeButton();
 
-
-    console.log("data Page", pageInfor)
+    console.log("data Page", pageInfor);
   }
-  function onClick(){
+  function onClick() {
     getProductCatalog();
-    localStorage.setItem("clicked",true);
+    localStorage.setItem("clicked", true);
   }
   return (
     <React.Fragment>
       <Title>Your Pages</Title>
       <br />
-      <button style={{ display: "block" }} id="buttonGetPage" onClick={() => getFunction()}>Show page</button>
-      <button style={{ display: "none" }} id="buttonGetProduct" onClick={() =>onClick() }>Show the product</button>
+      <button
+        style={{ display: "block" }}
+        id="buttonGetPage"
+        onClick={() => getFunction()}
+      >
+        Show page
+      </button>
+      <button
+        style={{ display: "none" }}
+        id="buttonGetProduct"
+        onClick={() => onClick()}
+      >
+        Show the product
+      </button>
       <br />
       {/* {getPageAvatar} */}
       {renderPageInfo}
-
     </React.Fragment>
   );
 }

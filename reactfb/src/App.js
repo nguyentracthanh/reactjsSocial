@@ -10,6 +10,7 @@ import Statistic from './views/statistic/Statistic'
 import Category from './views/Category/category'
 import getdatafb from './views/fbPages/ReactfbPagedata'
 import UserProvider  from './utils/userContext'
+import Post from './views/posts/Posts'
 function App() {
   const login = ({
 
@@ -22,6 +23,7 @@ function App() {
       <Route path= "/home" component={Home} />
       <Route path= "/loginWithFacebook" component={Facebook_login} />
       <Route path= "/stat" component={Statistic} />
+      <Route path ="/post" component={Post}/>
     </Switch>
     
   );
