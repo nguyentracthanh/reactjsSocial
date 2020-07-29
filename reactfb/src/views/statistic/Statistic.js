@@ -124,6 +124,11 @@ export default function Dashboard() {
   const handleDrawerOpen = () => {
     setOpen(true);
   };
+  const section = {
+    height: 500,
+    paddingTop: 5,
+    backgroundColor: "#fff"
+  };
   const handleDrawerClose = () => {
     setOpen(false);
   };
@@ -176,7 +181,7 @@ export default function Dashboard() {
           <Grid container spacing={3}>
             {/* Chart */}
             <Grid item xs={12} md={8} lg={9}>
-              <Paper className={fixedHeightPaper}>
+              <Paper style={section} className={fixedHeightPaper}>
                 <Chart />
               </Paper>
             </Grid>

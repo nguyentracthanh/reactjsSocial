@@ -22,35 +22,43 @@ export default function Chart() {
   const theme = useTheme();
   const [dataPageFanOnlDayBefore, setDataPageFanOnlDayBefore] = useState([]);
   const [dataPageFanOnlDayAfter, setDataPageFanOnlDayAfter] = useState([]);
-  // const [dataPoints, setDataPoint] = useState([]);
+  const [dataPoints, setDataPoints] = useState([]);
   const [count, setCount] = useState(null);
+  const [countCheck, setCountCheck] = useState(null);
   useEffect(() => {
     const result = JSON.parse(localStorage.getItem("data_page_fan_online"));
-    setDataPageFanOnlDayBefore(result[0].value);
-    setDataPageFanOnlDayAfter(result[1].value);
-    console.log("result hjhj", result.value);
+
+    setDataPageFanOnlDayBefore(result[0]);
+    // localStorage.setItem("DataPageFanOnlDayBefore",JSON.stringify(result[0].value));
+    setDataPageFanOnlDayAfter(result[1]);
+    console.log("result hjhj", result[0]);
   }, []);
 
   useEffect(() => {
     if (dataPageFanOnlDayBefore) {
-      const index = Object.keys(dataPageFanOnlDayBefore).length;
-      setCount(Object.keys(index).length);
+      var data = dataPageFanOnlDayBefore.value;
+      // const index = Object.keys(data).length;
+      console.log("index", data);
+      const check24 = dataPoints.length;
+      console.log("check24", check24);
+      setCountCheck(check24);
+      setCount(24);
     }
   }, [dataPageFanOnlDayBefore]);
   // const datatest=createData(dataPageFanOnlDayBefore);
   console.log("dataPageFanOnlDayBefore", dataPageFanOnlDayBefore);
   console.log("dataPageFanOnlDayAfter", dataPageFanOnlDayAfter);
-  console.log("datatest", dataPageFanOnlDayBefore.length);
+  // console.log("datatest", dataPageFanOnlDayBefore.length);
 
   console.log("datatest after", count);
-  var dataPoints=[];
+
   const options = {
     animationEnabled: true,
     title: {
-      text: "Daily",
+      text: "User Daily Reach",
     },
     axisX: {
-      valueFormatString: "HH",
+      valueFormatString: "Hour",
     },
     axisY: {
       title: "Number of reach",
@@ -60,27 +68,42 @@ export default function Chart() {
     data: [
       {
         yValueFormatString: "#,### users",
-        xValueFormatString: "YYYY-MM-DDTHH:MM:SSZ",
+        xValueFormatString: "##:OO",
         type: "spline",
         dataPoints: dataPoints,
       },
     ],
   };
+  // useEffect(()=>{
+  //   if(count==24){
+  //     addData();
+  //   }
+  // },[count]);
   const addData = () => {
-    var dataset = dataPageFanOnlDayBefore;
-    for (var i = 0; i < count; i++) // {
-    //   setDataPoint(dataPoints => [...dataPoints,({
-    //     x: new Date(i),
-    //     y: dataPageFanOnlDayBefore[i]
-    //   })]);
-    //   console.log("data estimate", dataPoints);
-    // };
-    {
-      dataPoints.push({
-        x: new Date(i),
-        y: Object.dataPageFanOnlDayBefore[i],
-      });
-    };
+    const check24 = dataPoints.length;
+    console.log("check24", check24);
+    setCountCheck(check24);
+    var dataset = JSON.stringify(dataPageFanOnlDayBefore.value);
+    var data = dataPageFanOnlDayBefore.value;
+    if (check24 <= 24) {
+      for (
+        var i = 0;
+        i < count;
+        i++ // {
+      ) //   setDataPoint(dataPoints => [...dataPoints,({
+      //     x: new Date(i),
+      //     y: dataPageFanOnlDayBefore[i]
+      //   })]);
+      //   console.log("data estimate", dataPoints);
+      // };
+      {
+        dataPoints.push({
+          x: i,
+          y: data[i],
+        });
+        // console.log("data dataset", );
+      }
+    }
     console.log("data estimate", dataPoints);
   };
   return (
