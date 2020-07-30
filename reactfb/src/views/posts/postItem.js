@@ -19,15 +19,12 @@ import RoundImage from "react-rounded-image";
 // }
 
 export default function Posts() {
-  const [catalogs, setCatalogs] = useState([]);
   const [userAccessToken, setUserAccessToken] = useState(null);
   const [pageIDLocal, setPageIDLocal] = useState(null);
   const [pageID, setPageID] = useState(null);
   const [feedData, setFeedData] = useState([]);
   const [sharecount, setSharecount] = useState(null);
 
-  // const [IDcatalog, setIDcatalog] = useState(null);
-  // const [nameProduct, setNameProduct] = useState([]);
   const [checker, setchecker] = useState(false);
   useEffect(() => {
     const userLongLiveToken = localStorage.getItem("userLongLiveToken");
@@ -35,42 +32,15 @@ export default function Posts() {
     // alert("user access token:",userAccessToken);
   }, []);
   useEffect(() => {
-    const check= localStorage.getItem("listPostClicked");
-    if(check=='true'){
-    const index = localStorage.getItem("pageID");
-    console.log("pageID 1".pageID);
-    setPageIDLocal(index);
+    const check = localStorage.getItem("listPostClicked");
+    if (check == "true") {
+      const index = localStorage.getItem("pageID");
+      console.log("pageID 1".pageID);
+      setPageIDLocal(index);
     }
-  }, );
+  });
 
-  // useEffect(() => {
-  //   const catalog = JSON.parse(localStorage.getItem("CatalogID"));
-  //   setCatalogs(catalog);
-  //   console.log(catalog);
-  // }, []);
-  // useEffect(()=>{
-  //   if (catalogs){
-  //     setchecker(true);
-  //   }
-  // },[catalogs]);
-  // useEffect(() => {
-  //   if (catalogs.length != 0) {
-  //     setIDcatalog(catalogs[0].id);
-  //   }
-  // }, [catalogs]);
   const getFeedPage = () => {
-    // if (catalogs && catalogs.length) {
-    // let catalogID = catalogs.map((catalog, index, catalogs) => {
-
-    //   return catalog.id[0];
-
-    // });
-    // const catalogItem=catalogs[0];
-    // for(var i=0;i<catalogs.length;i++){
-
-    // }
-    
-    // console.log(catalogs[0].id);
     Axios.get(
       `https://graph.facebook.com/v7.0/${pageID}/feed?fields=id,message,created_time,shares,picture&access_token=${userAccessToken}`
     ).then((res) => {
@@ -78,7 +48,7 @@ export default function Posts() {
       setFeedData(result);
       setSharecount(result.shares);
       console.log("setSharecount", result.shares);
-      console.log ("pageID",pageID);
+      console.log("pageID", pageID);
       console.log("feed: ", result);
       // localStorage.setItem("productSetDetail", JSON.stringify(productSet));
     });
@@ -112,7 +82,6 @@ export default function Posts() {
     calculateTime();
     getFeedPage();
     console.log("clicked");
-    
   }
   const calculateTime = () => {
     const date = new Date(feedData.map((dataItem) => dataItem.created_time));
@@ -131,7 +100,6 @@ export default function Posts() {
         imageWidth="50"
         imageHeight="50"
         roundedSize="1"
-        
       />
       {feedData.map((feedItem) => (
         <div>
@@ -139,20 +107,12 @@ export default function Posts() {
             {feedItem.message}{" "}
           </text>
           <br />
-          <img src={feedItem.picture} ></img>
+          <img src={feedItem.picture}></img>
           {/* Number of share: {sharecount.map(count=>count)} */}
           <br />
           Date: {Date(feedItem.created_time)}
         </div>
       ))}
-
-      {/* {productSetDetail.map((productSetDetailItem) => (
-        <menu key={productSetDetailItem.id}>
-          {productSetDetailItem.name}
-          <ProductItemList />
-          
-        </menu>
-      ))} */}
     </React.Fragment>
   );
 }
