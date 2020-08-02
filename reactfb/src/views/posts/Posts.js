@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import clsx from "clsx";
-import { makeStyles, rgbToHex } from "@material-ui/core/styles";
+import { makeStyles } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Drawer from "@material-ui/core/Drawer";
 import Box from "@material-ui/core/Box";
@@ -132,18 +132,12 @@ export default function Dashboard() {
   const handleDrawerClose = () => {
     setOpen(false);
   };
-  const [userAccessToken, setUserAccessToken] = useState(null);
   const [pageID, setPageID] = useState(null);
   const [feedData, setFeedData] = useState([]);
-  const [sharecount, setSharecount] = useState(null);
+  // const [sharecount, setSharecount] = useState(null);
   const [postImpression, setPostImpression] = useState([]);
   const [checker, setchecker] = useState(false);
-  // const [pageAcessToken, setPageAccessToken] = useState(null);
-  useEffect(() => {
-    const userLongLiveToken = localStorage.getItem("userLongLiveToken");
-    setUserAccessToken(userLongLiveToken);
-    // alert("user access token:",userAccessToken);
-  }, []);
+
   useEffect(() => {
     const check = localStorage.getItem("listPostClicked");
 
@@ -176,46 +170,15 @@ export default function Dashboard() {
         }
       }
       setFeedData(result);
-      setSharecount(result.shares);
+      // setSharecount(result.shares);
       console.log(result)
     } catch (error) {
       console.log(error)
     }
   };
 
-  // const getPageAccessToken = () => {
-  //   Axios.get(
-  //     `https://graph.facebook.com/v7.0/${pageID}?fields=access_token&access_token=${userAccessToken}`
-  //   ).then((res) => {
-  //     const result = res.data.access_token;
 
-  //     console.log("pageAcessToken: ", result);
-  //     setPageAccessToken(result);
-  //   });
-  // };
-  // const getPageImpression = async () => {
-  //   console.log(feedData)
-  //   for (var i = 0; i < feedData.length; i++) {
-  //     try {
-  //       const res = await  Axios.get(
-  //         `https://graph.facebook.com/v7.0/${feedData[i].id}/insights/post_impressions?access_token=${pageAcessToken}`
-  //       )
-  //       const result = res.data.data[0].values[0].value;
-  //       // var element={impression:result};
-  //       feedData[i].impression=result;
-  //       feedDataWithImpression.push(feedData[i])
-  //     } catch (error) {
-  //       console.log(error)
-  //     }
-  //   }
-  //   console.log(feedDataWithImpression)
-  //   // setFeedData(feedDataWithImpression)
-  //   // console.log("Test",feedData)
-  // };
 
-  function removeButton() {
-    document.getElementById("buttonProductlist").style.display = "none";
-  }
 
   const Onclicked = async () => {
     calculateTime();
@@ -322,7 +285,7 @@ export default function Dashboard() {
                     <br />
                     Date: {Date(feedItem.created_time)}
                   </div>
-                  Number of impression:{" "}
+                  Number of impression:{feedItem.impression}
                   {postImpression.map((item) => item.result)}
                   <br />
                 </Paper>

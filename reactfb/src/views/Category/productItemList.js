@@ -5,7 +5,6 @@ export default function ProductItemList() {
   const [productSetDetail, setProductSetDetai] = useState([]);
   const [productDetail, setProductDetail] = useState([]);
   const [userAccessToken, setUserAccessToken] = useState(null);
-  const [checker, setChecker] = useState(true);
   const [imageProduct, setImageProduct] = useState([]);
   useEffect(() => {
     const productLocalSetDetail = JSON.parse(

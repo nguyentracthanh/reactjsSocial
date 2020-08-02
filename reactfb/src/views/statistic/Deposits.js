@@ -1,43 +1,25 @@
-import React, { useState, useContext, useEffect } from "react";
-import Link from "@material-ui/core/Link";
-import { makeStyles, withTheme } from "@material-ui/core/styles";
+import React, { useState, useEffect } from "react";
 import Typography from "@material-ui/core/Typography";
 import Title from "./Title";
-import { UserContext } from "../../utils/userContext";
 import axios from "axios";
 import RoundImage from "react-rounded-image";
-// function preventDefault(event) {
-//   event.preventDefault();
-// }
-const df = null;
-const useStyles = makeStyles({
-  depositContext: {
-    flex: 1,
-  },
-});
+
 
 export default function Deposits() {
   const [pageInfor, setPageInfor] = useState([]);
   const [userAccessToken, setUserAT] = useState("");
-  const [userID, setUserID] = useState(null);
-  // const { userData } = useContext(UserContext)
   const [userData, setUserData] = useState(null);
   const [pageID, setPageID] = useState([]);
-  const [pageAvtURL, setPageAvtURL] = useState([]);
   const [productPageID, setProductPageID] = useState(null);
-  const [productCatalogID, setProductCatalogID] = useState([]);
-  // const [pageAccessToken,setpageAccessToken]=useState(fbPageData.accessToken)
-  // const [userAccesstoken,setUserAT]=useState(fbData.accessToken)
-  // const [userID,setUserID]=useState(fbData.userID)
+
   const [check, setCheck] = useState(false);
   useEffect(() => {
-    if (check == false) {
+    if (check === false) {
       localStorage.setItem("clicked", check);
       localStorage.setItem("listPostClicked", check);
     }
   }, [check]);
 
-  // setUserID(userData.userID);
 
   useEffect(() => {
     const user = JSON.parse(localStorage.getItem("userData"));
@@ -49,28 +31,10 @@ export default function Deposits() {
     if (userData) {
       const userLongLiveToken = localStorage.getItem("userLongLiveToken");
       setUserAT(userLongLiveToken);
-      // alert("user access token:",userAccessToken);
     }
   }, [userData]);
 
-  // const getPageAvatar = () => {
-
-  //   // console.log("idpage:",idPage2)
-  //   var pageAvtURL=[];
-  //   for (var i = 0; i < pageID.length; i++) {
-  //     axios
-  //       .get(
-  //         `https://graph.facebook.com/v7.0/${pageID[i]}/accounts?access_token=${userAccessToken}`
-  //       )
-  //       .then(
-  //         (res) =>{
-  //           const avtURL=res;
-  //           console.log("img:",res);
-  //           pageAvtURL[i]=avtURL;
-  //         }
-  //       )
-  //   }
-  // }
+ 
   const getPagedata = () => {
     axios
       .get(
@@ -80,35 +44,12 @@ export default function Deposits() {
         (res) => {
           const result = res.data.data;
           var pageID = [];
-          var pageAccessTokenx=[];
           for (var i = 0; i < result.length; i++) {
             pageID[i] = result[i].id;
-            // pageAccessTokenx[i]=result[i].access_token;
           }
-          console.log("pageID:", pageID);
           setPageID(pageID);
-          // setpageAccessToken(pageAccessTokenx);
-
-          // const result = res.data.data[0]; // collect data in array[0]
-          console.log("pageInfo: ", res);
-          // alert(userAccessToken)
           setPageInfor(result);
-          console.log("pageInfoxxxx: ", result);
-          var pageAvtURL = [];
-          for (var i = 0; i < pageID.length; i++) {
-            axios
-              .get(
-                `https://graph.facebook.com/v7.0/${pageID[i]}/picture`
-                // ?access_token=${userAccessToken}
-              )
-              .then((res) => {
-                const avtURL = res;
-                console.log("img:", res);
-
-                pageAvtURL[i] = avtURL;
-                setPageAvtURL(pageAvtURL);
-              });
-          }
+  
         },
         (error) => {
           console.log(error);
@@ -121,26 +62,11 @@ export default function Deposits() {
   function showButton() {
     document.getElementById("buttonGetProduct").style.display = "block";
   }
-  // function getProductCatalog() {
-  //   axios
-  //     .get(
-  //       `https://graph.facebook.com/v7.0/${productPageID}/feed?access_token=${userAccessToken}`
-  //       //
-  //     )
-  //     .then((res) => {
-  //       const postData = res.data;
-  //       console.log("product catalog:", productCata);
-  //       setProductCatalogID(postData);
-  //       // localStorage.setItem("CatalogID", JSON.stringify(productCata));
-  //       // pageAvtURL[i] = avtURL;
-  //       // setPageAvtURL(pageAvtURL);
-  //     });
-  // }
+  
   useEffect(() => {
     if (productPageID) {
       showButton();
 
-      // localStorage.setItem("pageID", productPageID);
     }
   }, [productPageID]);
   const renderPageInfo = (
@@ -194,18 +120,7 @@ export default function Deposits() {
     // getPageAccessToken();
   }
   const [pageAccessToken,setpageAccessToken]=useState(null);
-  // const getPageAccessToken=()=>{
-  //   axios
-  //   .get( `https://graph.facebook.com/v7.0/${productPageID}?fields=access_token&access_token=${userAccessToken}`)
-  //   .then(
-  //     (res) =>{
-  //       const result=res.data.access_token;
-  //       setpageAccessToken(result);
-  //       console.log("setpageAccessToken",result)
-  //     }
-  //   )
-  // }
-  const [dataCollected,setDataCollected]=useState([]);
+ 
   const getPageFanOnline=()=>{
     axios
     .get( `https://graph.facebook.com/v7.0/${productPageID}/insights/page_fans_online?access_token=${pageAccessToken}`)

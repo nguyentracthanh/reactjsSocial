@@ -1,20 +1,16 @@
 import React, { useState, useEffect } from "react";
 import { useTheme } from "@material-ui/core/styles";
+
 import Title from "./Title";
 import CanvasJSReact from "../../assets/canvasjs.react";
 var CanvasJSChart = CanvasJSReact.CanvasJSChart;
 
-function createData(time, amount) {
-  return { time, amount };
-}
-
 export default function Chart() {
-  const theme = useTheme();
+
   const [dataPageFanOnlDayBefore, setDataPageFanOnlDayBefore] = useState([]);
   const [dataPageFanOnlDayAfter, setDataPageFanOnlDayAfter] = useState([]);
   const [dataPoints, setDataPoints] = useState([]);
   const [count, setCount] = useState(null);
-  const [countCheck, setCountCheck] = useState(null);
   useEffect(() => {
     const result = JSON.parse(localStorage.getItem("data_page_fan_online"));
 
@@ -25,11 +21,6 @@ export default function Chart() {
 
   useEffect(() => {
     if (dataPageFanOnlDayBefore) {
-      var data = dataPageFanOnlDayBefore.value;
-      console.log("index", data);
-      const check24 = dataPoints.length;
-      console.log("check24", check24);
-      setCountCheck(check24);
       setCount(24);
     }
   }, [dataPageFanOnlDayBefore]);
@@ -61,32 +52,59 @@ export default function Chart() {
     ],
   };
 
-  const addData = () => {
+  // const addData = () => {
+  //   const check24 = dataPoints.length;
+  //   const tmpData = []
+  //   console.log("check24", check24);
+  //   var data = dataPageFanOnlDayBefore.value;
+  //   if (data) {
+  //     if (check24 < 24) {
+  //       for (
+  //         var i = 0;
+  //         i < 24;
+  //         i++ // {
+  //       ) {
+  //         tmpData.push({
+  //           x: i,
+  //           y: data[i],
+  //         });
+          
+  //       }
+  //       console.log("ran");
+  //     }
+  //   };
+  //   setDataPoints(tmpData)
+  //   console.log("data estimate", tmpData);
+  // };
+  useEffect(() => {
     const check24 = dataPoints.length;
+    const tmpData = []
     console.log("check24", check24);
-    setCountCheck(check24);
-    var dataset = JSON.stringify(dataPageFanOnlDayBefore.value);
     var data = dataPageFanOnlDayBefore.value;
-    if (check24 <= 24) {
-      for (
-        var i = 0;
-        i < count;
-        i++ // {
-      ) 
-      {
-        dataPoints.push({
-          x: i,
-          y: data[i],
-        });
+    if (data) {
+      if (check24 < 24) {
+        for (
+          var i = 0;
+          i < 24;
+          i++ // {
+        ) {
+          tmpData.push({
+            x: i,
+            y: data[i],
+          });
+          
+        }
+        console.log("ran");
       }
-    }
-    console.log("data estimate", dataPoints);
-  };
+    };
+    setDataPoints(tmpData)
+    console.log("data estimate", tmpData);
+  }, [dataPageFanOnlDayBefore]);
   return (
     <React.Fragment>
       <Title>Today</Title>
-      <button onClick={addData}>Show chart</button>
-      <CanvasJSChart options={options} />
+      {/* <button onClick={addData}>Get</button> */}
+      <CanvasJSChart options={ options} />
     </React.Fragment>
   );
 }

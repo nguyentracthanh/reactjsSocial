@@ -1,34 +1,18 @@
-import React, { useState, useContext, useEffect } from "react";
-import Link from "@material-ui/core/Link";
-import { makeStyles, withTheme } from "@material-ui/core/styles";
+import React, { useState,  useEffect } from "react";
 import Typography from "@material-ui/core/Typography";
 import Title from "./Title";
-import { UserContext } from "../../utils/userContext";
 import axios from "axios";
 import RoundImage from "react-rounded-image";
-// function preventDefault(event) {
-//   event.preventDefault();
-// }
-const df = null;
-const useStyles = makeStyles({
-  depositContext: {
-    flex: 1,
-  },
-});
+
 
 export default function Deposits() {
   const [pageInfor, setPageInfor] = useState([]);
   const [userAccessToken, setUserAT] = useState("");
-  const [userID, setUserID] = useState(null);
-  // const { userData } = useContext(UserContext)
   const [userData, setUserData] = useState(null);
   const [pageID, setPageID] = useState([]);
-  const [pageAvtURL, setPageAvtURL] = useState([]);
   const [productPageID, setProductPageID] = useState(null);
   const [productCatalogID, setProductCatalogID] = useState([]);
-  // const [pageAccessToken,setpageAccessToken]=useState(fbPageData.accessToken)
-  // const [userAccesstoken,setUserAT]=useState(fbData.accessToken)
-  // const [userID,setUserID]=useState(fbData.userID)
+ 
   const [check, setCheck] = useState(false);
   useEffect(() => {
     if (check == false) {
@@ -36,7 +20,6 @@ export default function Deposits() {
     }
   }, [check]);
 
-  // setUserID(userData.userID);
 
   useEffect(() => {
     const user = JSON.parse(localStorage.getItem("userData"));
@@ -48,28 +31,10 @@ export default function Deposits() {
     if (userData) {
       const userLongLiveToken = localStorage.getItem("userLongLiveToken");
       setUserAT(userLongLiveToken);
-      // alert("user access token:",userAccessToken);
     }
   }, [userData]);
 
-  // const getPageAvatar = () => {
-
-  //   // console.log("idpage:",idPage2)
-  //   var pageAvtURL=[];
-  //   for (var i = 0; i < pageID.length; i++) {
-  //     axios
-  //       .get(
-  //         `https://graph.facebook.com/v7.0/${pageID[i]}/accounts?access_token=${userAccessToken}`
-  //       )
-  //       .then(
-  //         (res) =>{
-  //           const avtURL=res;
-  //           console.log("img:",res);
-  //           pageAvtURL[i]=avtURL;
-  //         }
-  //       )
-  //   }
-  // }
+  
   const getPagedata = () => {
     axios
       .get(
@@ -90,21 +55,7 @@ export default function Deposits() {
           // alert(userAccessToken)
           setPageInfor(result);
           console.log("pageInfoxxxx: ", result);
-          var pageAvtURL = [];
-          for (var i = 0; i < pageID.length; i++) {
-            axios
-              .get(
-                `https://graph.facebook.com/v7.0/${pageID[i]}/picture`
-                // ?access_token=${userAccessToken}
-              )
-              .then((res) => {
-                const avtURL = res;
-                console.log("img:", res);
-
-                pageAvtURL[i] = avtURL;
-                setPageAvtURL(pageAvtURL);
-              });
-          }
+        
         },
         (error) => {
           console.log(error);
@@ -128,8 +79,7 @@ export default function Deposits() {
         console.log("product catalog:", productCata);
         setProductCatalogID(productCata);
         localStorage.setItem("CatalogID", JSON.stringify(productCata));
-        // pageAvtURL[i] = avtURL;
-        // setPageAvtURL(pageAvtURL);
+
       });
   }
   useEffect(() => {
@@ -142,7 +92,6 @@ export default function Deposits() {
   const renderPageInfo = (
     <div>
       {pageInfor.map((dataItem, index) => (
-        // <div key={dataItem.id}>
         <div>
           <button
             style={{
@@ -152,7 +101,6 @@ export default function Deposits() {
             key={index}
             onClick={() => setProductPageID(dataItem.id)}
           >
-            {/* <div>Name: {dataItem.name}</div> */}
 
             <RoundImage
               image={`https://graph.facebook.com/v7.0/${dataItem.id}/picture`}
@@ -164,7 +112,6 @@ export default function Deposits() {
 
             <Typography>{dataItem.name}</Typography>
 
-            {/* <div>ID page: {dataItem.id}</div> */}
             <br />
           </button>
           <br />
