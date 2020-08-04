@@ -23,14 +23,13 @@ export default function Products() {
     setCatalogs(catalog);
     console.log(catalog);
   }, []);
- 
+
   useEffect(() => {
     if (catalogs.length != 0) {
       setIDcatalog(catalogs[0].id);
     }
   }, [catalogs]);
   const getCatalogID = () => {
-   
     Axios.get(
       `https://graph.facebook.com/v7.0/${IDcatalog}/product_sets?access_token=${userAccessToken}`
     ).then((res) => {
@@ -51,20 +50,25 @@ export default function Products() {
         setNameProduct(result);
         console.log("productset Id:", result);
       });
-   
     }
   };
-  function removeButton() {
+  const removeButton = () => {
     document.getElementById("buttonProductlist").style.display = "none";
-  }
+  };
 
-  function Onclicked() {
+  const Onclicked = () => {
     getCatalogID();
     getProduct();
     removeButton();
     console.log("clicked");
-  }
+  };
 
+  const section = {
+    height: "auto",
+    paddingTop: 5,
+    backgroundColor: "#fff",
+    border: "1px solid #676E6D",
+  };
   return (
     <React.Fragment>
       <button id="buttonProductlist" onClick={() => Onclicked()}>
@@ -72,10 +76,9 @@ export default function Products() {
         GET productset
       </button>
       {productSetDetail.map((productSetDetailItem) => (
-        <ul key={productSetDetailItem.id}>
+        <ul style={section} key={productSetDetailItem.id}>
           {productSetDetailItem.name}
           <ProductItemList />
-          
         </ul>
       ))}
     </React.Fragment>

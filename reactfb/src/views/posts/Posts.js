@@ -27,7 +27,7 @@ function Copyright() {
     <Typography variant="body2" color="textSecondary" align="center">
       {"Copyright © "}
       <Link color="inherit" href="https:/bglobalcorp.com/">
-        bglobalcorp
+        ThanhNT
       </Link>{" "}
       {new Date().getFullYear()}
       {"."}
@@ -229,7 +229,7 @@ export default function Dashboard() {
             noWrap
             className={classes.title}
           >
-            Dashboard
+            Posts
           </Typography>
           <IconButton color="inherit">
             <Badge badgeContent={4} color="secondary">
@@ -294,7 +294,7 @@ export default function Dashboard() {
             </Grid>
             {/* Recent Deposits */}
             <Grid id="listPage" item xs={12} md={4} lg={3}>
-              <Paper className={fixedHeightPaper}>
+              <Paper style={section} className={fixedHeightPaper}>
                 <Deposits />
               </Paper>
             </Grid>

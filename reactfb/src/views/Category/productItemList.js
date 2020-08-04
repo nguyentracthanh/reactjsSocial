@@ -6,54 +6,33 @@ export default function ProductItemList() {
   const [productDetail, setProductDetail] = useState([]);
   const [userAccessToken, setUserAccessToken] = useState(null);
   const [imageProduct, setImageProduct] = useState([]);
+
   useEffect(() => {
     const productLocalSetDetail = JSON.parse(
       localStorage.getItem("productSetDetail")
     );
-    setProductSetDetai(productLocalSetDetail);
-    console.log("local productset detail", productLocalSetDetail);
-  }, []);
-  useEffect(() => {
     const userLongLiveToken = localStorage.getItem("userLongLiveToken");
 
-    setUserAccessToken(userLongLiveToken);
-  }, []);
-  useEffect(() => {
-    if (productSetDetail.length && productSetDetail) {
-      console.log("product set detail: ", productSetDetail);
-      getProductItem();
-    }
-  }, [productSetDetail]);
-  const getProductItem = () => {
-    //   console.log("productset detal is",productSetDetail)
-    for (var i = 0; i < productSetDetail.length; i++) {
+    for (var i = 0; i < productLocalSetDetail.length; i++) {
       axios
         .get(
-          `https://graph.facebook.com/v7.0/${productSetDetail[i].id}/products?fields=price,name,image_cdn_urls&access_token=${userAccessToken}`
+          `https://graph.facebook.com/v7.0/${productLocalSetDetail[i].id}/products?fields=price,name,image_cdn_urls&access_token=${userLongLiveToken}`
         )
         .then((res) => {
           const result = res.data.data;
-          const resultImageURL = result.map(
-            (resultItem) => resultItem.image_cdn_urls
-          );
-          console.log("resultImageURL",resultImageURL);
+          console.log("result",result);
+          // const resImg=res.data.data[i].image_cdn_urls[0].value;
+
+          // console.log("resImg",resImg);
           setProductDetail(result);
-          //   for (var j = 0; j < result.length; j++) {
-          //     const imgURL = result[j].image_cdn_urls;
-              
-          //     // console.log("image product", imgURL[0].value);
-          //   }
-          // console.log("image product 22222", imageProduct);
-          // console.log("product Detail:", productDetail);
-          const subResult = resultImageURL.map((item) => item);
-        //   .map((itemURLarray)=> itemURLarray.value));
-        //   const urlResult= subResult.map((itemURL)=>itemURL)
-          console.log("subResult",subResult[1]);
-          setImageProduct(subResult[1]);
-        //   console.log("urlResult",urlResult);
+         
+          // console.log("subResult",subResult[1]);
+          // setImageProduct(resImg);
         });
     }
-  };
+  }, []);
+
+
 
   return (
     <div key={productDetail.id}>
@@ -62,7 +41,7 @@ export default function ProductItemList() {
           Product Name: {productItem.name}
           <br />
           <RoundImage
-            image={imageProduct.map((item)=>item.value)}
+            image={productItem.image_cdn_urls[1].value}
             roundedColor="#321124"
             imageWidth="50"
             imageHeight="50"

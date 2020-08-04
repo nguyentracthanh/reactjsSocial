@@ -27,8 +27,8 @@ function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
       {'Copyright © '}
-      <Link color="inherit" href="https:/bglobalcorp.com/">
-        bglobalcorp
+      <Link color="inherit" href="https:/ThanhNT.com/">
+        ThanhNT
       </Link>{' '}
       {new Date().getFullYear()}
       {'.'}
@@ -124,11 +124,19 @@ export default function Dashboard() {
   const handleDrawerOpen = () => {
     setOpen(true);
   };
+
   const handleDrawerClose = () => {
     setOpen(false);
   };
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
+  const section = {
+    height: "auto",
+    paddingTop: 5,
+    backgroundColor: "#fff",
+    border: "1px solid #676E6D",
+  };
 
+  
   return (
     <div className={classes.root}>
       <CssBaseline />
@@ -144,7 +152,7 @@ export default function Dashboard() {
             <MenuIcon />
           </IconButton>
           <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
-            Dashboard
+            Category
           </Typography>
           <IconButton color="inherit">
             <Badge badgeContent={4} color="secondary">
@@ -176,13 +184,13 @@ export default function Dashboard() {
           <Grid container spacing={3}>
             {/* Products */}
             <Grid item xs={12} md={8} lg={9}>
-              <Paper className={fixedHeightPaper}>
+              <Paper style={section} className={fixedHeightPaper}>
                 <Products />
               </Paper>
             </Grid>
             {/* Recent Deposits */}
             <Grid item xs={12} md={4} lg={3}>
-              <Paper className={fixedHeightPaper}>
+              <Paper style={section} className={fixedHeightPaper}>
                 <Deposits />
               </Paper>
             </Grid>
