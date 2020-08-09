@@ -3,7 +3,7 @@ import Typography from "@material-ui/core/Typography";
 import Title from "./Title";
 import axios from "axios";
 import RoundImage from "react-rounded-image";
-
+import Skeleton from 'react-loading-skeleton';
 
 export default function Deposits() {
   const [pageInfor, setPageInfor] = useState([]);
@@ -85,7 +85,7 @@ export default function Deposits() {
             {/* <div>Name: {dataItem.name}</div> */}
             <div>
             <RoundImage
-              image={`https://graph.facebook.com/v7.0/${dataItem.id}/picture`}
+              image={`https://graph.facebook.com/v7.0/${dataItem.id}/picture`||<Skeleton/>}
               roundedColor="#321124"
               imageWidth="50"
               imageHeight="50"
@@ -106,7 +106,7 @@ export default function Deposits() {
   function getFunction() {
     getPagedata();
     removeButton();
-
+    
     console.log("data Page", pageInfor);
   }
 
@@ -117,6 +117,7 @@ export default function Deposits() {
     localStorage.setItem("listPostClicked", true);
     localStorage.setItem("pageID",productPageID);
     getPageFanOnline();
+    getPageNegativeFeedback();
     // getPageAccessToken();
   }
   const [pageAccessToken,setpageAccessToken]=useState(null);
@@ -129,10 +130,25 @@ export default function Deposits() {
         const result=res.data.data;
         // setDataCollected(result)
         localStorage.setItem("data_page_fan_online", JSON.stringify(result[0].values));
+        console.log("data_page_fan_online",JSON.stringify(result[0].values[0].value))
       }
     )
   }
+  const getPageNegativeFeedback=()=>{
+    axios
+    .get( `https://graph.facebook.com/v7.0/${productPageID}/insights/page_fans_locale?access_token=${pageAccessToken}`)
+    .then(
+      (res)=>{
+        const result=res.data.data[0].values[0];
+        // setDataCollected(result)
+        localStorage.setItem("page_negative_feedback", JSON.stringify(result));
+        console.log("page_negative_feedback",result)
+      }
+    )
+  }
+  // const getHighestUser=()=>{
 
+  // }
   return (
     <React.Fragment>
       <Title>Your Pages</Title>
@@ -149,7 +165,7 @@ export default function Deposits() {
         id="buttonGetProduct"
         onClick={() => onClick()}
       >
-        Get list posts
+        Get statistic
       </button>
       <br />
       {/* {getPageAvatar} */}

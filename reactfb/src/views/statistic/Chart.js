@@ -3,10 +3,10 @@ import { useTheme } from "@material-ui/core/styles";
 
 import Title from "./Title";
 import CanvasJSReact from "../../assets/canvasjs.react";
+import Skeleton from "react-loading-skeleton";
 var CanvasJSChart = CanvasJSReact.CanvasJSChart;
 
 export default function Chart() {
-
   const [dataPageFanOnlDayBefore, setDataPageFanOnlDayBefore] = useState([]);
   const [dataPageFanOnlDayAfter, setDataPageFanOnlDayAfter] = useState([]);
   const [dataPoints, setDataPoints] = useState([]);
@@ -31,22 +31,25 @@ export default function Chart() {
 
   const options = {
     animationEnabled: true,
+    zoomEnabled: true,
     title: {
       text: "User Daily Reach",
     },
     axisX: {
-      valueFormatString: "Hour",
+      valueFormatString: "",
+
+      suffix: " hour",
     },
     axisY: {
       title: "Number of reach",
-      prefix: "",
+      suffix: " user(s)",
       includeZero: false,
     },
     data: [
       {
         yValueFormatString: "#,### users",
         xValueFormatString: "##:OO",
-        type: "spline",
+        type: "line",
         dataPoints: dataPoints,
       },
     ],
@@ -68,7 +71,7 @@ export default function Chart() {
   //           x: i,
   //           y: data[i],
   //         });
-          
+
   //       }
   //       console.log("ran");
   //     }
@@ -78,7 +81,7 @@ export default function Chart() {
   // };
   useEffect(() => {
     const check24 = dataPoints.length;
-    const tmpData = []
+    const tmpData = [];
     console.log("check24", check24);
     var data = dataPageFanOnlDayBefore.value;
     if (data) {
@@ -92,19 +95,17 @@ export default function Chart() {
             x: i,
             y: data[i],
           });
-          
         }
-        console.log("ran");
       }
-    };
-    setDataPoints(tmpData)
+    }
+    setDataPoints(tmpData);
     console.log("data estimate", tmpData);
   }, [dataPageFanOnlDayBefore]);
   return (
     <React.Fragment>
       <Title>Today</Title>
       {/* <button onClick={addData}>Get</button> */}
-      <CanvasJSChart options={ options} />
+      <CanvasJSChart options={options} />
     </React.Fragment>
   );
 }

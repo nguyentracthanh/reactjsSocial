@@ -59,7 +59,6 @@ export default function Products() {
   const Onclicked = () => {
     getCatalogID();
     getProduct();
-    removeButton();
     console.log("clicked");
   };
 

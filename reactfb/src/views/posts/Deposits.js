@@ -3,6 +3,7 @@ import Typography from "@material-ui/core/Typography";
 import Title from "./Title";
 import RoundImage from "react-rounded-image";
 import axios from 'axios'
+import Skeleton from "react-loading-skeleton";
 
 
 
@@ -90,7 +91,7 @@ export default function Deposits() {
           >
             <div>
             <RoundImage
-              image={`https://graph.facebook.com/v7.0/${dataItem.id}/picture`}
+              image={`https://graph.facebook.com/v7.0/${dataItem.id}/picture`||<Skeleton/>}
               roundedColor="#321124"
               imageWidth="50"
               imageHeight="50"

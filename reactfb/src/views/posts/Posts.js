@@ -19,9 +19,10 @@ import MenuIcon from "@material-ui/icons/Menu";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import NotificationsIcon from "@material-ui/icons/Notifications";
 import Deposits from "./Deposits";
-import { mainListItems, secondaryListItems } from "../../components/listItems";
+import { mainListItems } from "../../components/listItems";
 import RoundImage from "react-rounded-image";
 import Axios from "axios";
+import Skeleton from 'react-loading-skeleton'
 function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
@@ -154,17 +155,29 @@ export default function Dashboard() {
       )
       const pageAcessToken = pageAcessTokenRes.data.access_token;
       const res = await Axios.get(
-        `https://graph.facebook.com/v7.0/${pageID}/feed?fields=id,message,created_time,shares,picture&access_token=${userLongLiveToken}`
+        `https://graph.facebook.com/v7.0/${pageID}/posts?fields=id,message,created_time,shares,picture&pretty=0&limit=10&access_token=${userLongLiveToken}`
       );
       const result = res.data.data;
       for (var i = 0; i < result.length; i++) {
         try {
           const impress = await  Axios.get(
             `https://graph.facebook.com/v7.0/${result[i].id}/insights/post_impressions?access_token=${pageAcessToken}`
-          )
+          );
+          const numNegativeFeedback= await Axios.get(
+            `https://graph.facebook.com/v7.0/${result[i].id}/insights/post_negative_feedback?access_token=${pageAcessToken}`
+          );
+          const numPeopleNegativeFeedback= await Axios.get(
+            `https://graph.facebook.com/v7.0/${result[i].id}/insights/post_negative_feedback_unique?access_token=${pageAcessToken}`
+          );
           const resultImpress = impress.data.data[0].values[0].value;
+          const resultnumberNegativeFeedback= numNegativeFeedback.data.data[0].values[0].value;
+          const resultnumberPeopleNegativeFeedback=numPeopleNegativeFeedback.data.data[0].values[0].value;
+          // console.log("numPeopleNegativeFeedback",numPeopleNegativeFeedback)
           // var element={impression:result};
           result[i].impression=resultImpress;
+          result[i].numberNegativeFeedback=resultnumberNegativeFeedback;
+          result[i].numberPeopleNegativeFeedback=resultnumberPeopleNegativeFeedback;
+
         } catch (error) {
           console.log(error)
         }
@@ -185,6 +198,7 @@ export default function Dashboard() {
     await getFeedPage();
     console.log("clicked");
     console.log("pageID", pageID);
+    
     // await getPageImpression();
     // getPageAccessToken();
     console.log("post data with impression", feedData);
@@ -253,7 +267,6 @@ export default function Dashboard() {
         <Divider />
         <List>{mainListItems}</List>
         <Divider />
-        <List>{secondaryListItems}</List>
       </Drawer>
       <main className={classes.content}>
         <div className={classes.appBarSpacer} />
@@ -267,20 +280,24 @@ export default function Dashboard() {
                 Show Post
               </button>
               <RoundImage
-                image={pageID ? `https://graph.facebook.com/v7.0/${pageID}/picture` : null}
+                image={pageID ? `https://graph.facebook.com/v7.0/${pageID}/picture` : null ||<Skeleton />}
                 roundedColor="#321124"
                 imageWidth="50"
                 imageHeight="50"
                 roundedSize="1"
               />
+              
+              <Paper>
+              
               {feedData.map((feedItem) => (
                 <Paper style={section} className={fixedHeightPaper}>
+                  
                   <div>
                     <div rows="5" style={{ fontSize: 16 }}>
                       {feedItem.message}{" "}
                     </div>
                     <br />
-                    <img src={feedItem.picture}></img>
+                    <img src={feedItem.picture||<Skeleton height={100}/>}></img>
                     {/* Number of share: {feedItem.shares} */}
                     <br />
                     Date: {Date(feedItem.created_time)}
@@ -288,8 +305,12 @@ export default function Dashboard() {
                   Number of impression:{feedItem.impression}
                   {postImpression.map((item) => item.result)}
                   <br />
+                  Number of negative feedback: {feedItem.numberNegativeFeedback}
+                  <br/>
+                  Number of people had negative feedback:{feedItem.numberPeopleNegativeFeedback}
                 </Paper>
-              ))}
+              ))||<Skeleton />}
+              </Paper>
               <br />
             </Grid>
             {/* Recent Deposits */}
