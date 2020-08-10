@@ -21,14 +21,13 @@ export default function Products() {
   useEffect(() => {
     const catalog = JSON.parse(localStorage.getItem("CatalogID"));
     setCatalogs(catalog);
+    if (catalog.length != null){
+    setIDcatalog(catalog[0].id);
+    }
     console.log(catalog);
   }, []);
 
-  useEffect(() => {
-    if (catalogs.length != 0) {
-      setIDcatalog(catalogs[0].id);
-    }
-  }, [catalogs]);
+
   const getCatalogID = () => {
     Axios.get(
       `https://graph.facebook.com/v7.0/${IDcatalog}/product_sets?access_token=${userAccessToken}`
